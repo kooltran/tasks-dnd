@@ -22,6 +22,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 
+import { useWindowResize } from "../../../useWindowResize";
 import { useAppContext } from "../../../AppContext";
 import { getTasks } from "../../../api/taskAPI";
 import {
@@ -72,6 +73,7 @@ const ProjectPannel = () => {
   const [upperBoxHeight, setUpperBoxHeight] = useState(0);
   const [projectPannelHeight, setProjectPannelHeight] = useState(0);
   const [openModal, setOpenModal] = useState(false);
+  const { width } = useWindowResize();
 
   const {
     data: { task },
@@ -148,7 +150,7 @@ const ProjectPannel = () => {
     if (!savedTasks) {
       handleGetTasks();
     }
-  }, []);
+  }, [width]);
 
   useEffect(() => {
     setColumns(columnsTasks);
@@ -282,6 +284,10 @@ const ProjectPannel = () => {
       <Box
         sx={{
           height: projectPannelHeight - (upperBoxHeight + 20),
+          minWidth: "100%",
+          maxWidth: "1px",
+          overflow: "hidden",
+          overflowX: "auto",
         }}
       >
         <Box
@@ -291,6 +297,7 @@ const ProjectPannel = () => {
             borderTopRightRadius: "4px",
             borderTopLeftRadius: "4px",
             textAlign: "left",
+            minWidth: "calc(800px - 16px)",
           }}
         >
           <Typography variant="span" sx={{ marginRight: "20px" }}>
@@ -318,6 +325,7 @@ const ProjectPannel = () => {
             borderBottomLeftRadius: "4px",
             textAlign: "left",
             height: projectPannelHeight - (upperBoxHeight + 40) - 70,
+            minWidth: "800px",
           }}
         >
           <DragDropContext
